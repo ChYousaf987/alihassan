@@ -2,10 +2,10 @@ import AboutSection from '@/components/AboutSection';
 import BlogSection from '@/components/BlogSection';
 import ContactSection from '@/components/ContactSection';
 import HeroSection from '@/components/HeroSection';
-import Navbar from "@/components/Navbar"; // ✅ Correct
-import Services from '@/components/Services';
-import Skills from '@/components/Skills';
-import Work from '@/components/Work';
+import Navbar from "../components/NavBar"; // ✅ Correct
+import Services from '../components/Services';
+import Skills from '../components/Skills';
+import Work from '../components/Work';
 
 export default function Home() {
   return (
