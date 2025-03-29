@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { db } from "../../config/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function BlogList() {
   const [blogs, setBlogs] = useState([]);
