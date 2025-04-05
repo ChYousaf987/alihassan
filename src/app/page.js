@@ -40,7 +40,7 @@ export default function Home() {
       </div>
 
       {/* Contact Section */}
-      <div className="container mx-auto px-3 md:px-6">
+      <div className="container mx-auto px-3 md:px-6 mb-4">
         <ContactSection />
       </div>
     </main>

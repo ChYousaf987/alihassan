@@ -36,7 +36,7 @@ const skillsData = {
   ],
 };
 
-const Skills = () => {
+const   Skills = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   return (
@@ -76,12 +76,14 @@ const Skills = () => {
       >
         {skillsData[selectedCategory].slice(0, 12).map((skill, index) => (
           <div
-            key={index}
-            className="w-28 h-28 flex flex-col items-center justify-center border border-gray-300 bg-gray-900 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"
-          >
-            <img src={skill.img} alt={skill.name} className="w-12 h-12 mb-2" />
-            <span className="text-sm">{skill.name}</span>
-          </div>
+          key={index}
+          className="relative w-28 h-28 flex flex-col items-center justify-center bg-gray-900 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300 border-2 border-gray-800 hover:border-purple-700 transition-colors"
+        >
+          <div className="absolute top-[-2px] left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-purple-700 to-transparent"></div>
+        
+          <img src={skill.img} alt={skill.name} className="w-12 h-12 mb-2 relative" />
+          <span className="text-sm relative">{skill.name}</span>
+        </div>                                  
         ))}
       </motion.div>
     </div>
