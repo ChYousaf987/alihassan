@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { db } from "../../config/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { useParams } from "next/navigation";
+import { format } from "date-fns";
+import { SlCalender } from "react-icons/sl";
 
 
 export default function BlogDetail() {
@@ -38,12 +40,21 @@ export default function BlogDetail() {
   if (!blog) return <div className="flex justify-center items-center w-screen h-screen"><p className="text-center">Blog not found..</p></div>
 
   return (
-    <div className="min-h-screen mx-auto p-6">
+    <div className="min-h-screen mx-auto p-6 pt-20">
       <img src={blog.image} alt={blog.title} className="w-full h-64 object-cover rounded-md mb-4" />
       <h1 className="text-3xl font-bold mb-4">{blog.title}</h1>
       <div className="p-3">
       <div dangerouslySetInnerHTML={{ __html: blog.value }} className="w-full" />
-      </div>
+      </div>    
+      <p className="text-white flex items-center gap-3">
+        <SlCalender />
+        <span>
+          {format(
+              new Date(blog.createdAt.seconds * 1000),
+              "PPP"
+            )}
+          </span>
+      </p>
     </div>
   );
 }
