@@ -78,7 +78,7 @@ const BlogSection = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {blogs.map((blog) => {
-              const limitedText = getLimitedHTML(blog.content, 100); // Replace 'content' if your field is different
+              const limitedText = getLimitedHTML(blog.value, 100); // Replace 'content' if your field is different
 
               return (
                 <Link href={`/blog/${blog.id}`} key={blog.id} className="group">
@@ -107,13 +107,13 @@ const BlogSection = () => {
                         dangerouslySetInnerHTML={{ __html: limitedText }}
                         className="w-full"
                       />
-                      <a
+                      <Link
                         className="text-white flex items-center gap-3 mt-6 hover:text-blue-700 transition-colors duration-300 ease-in-out grouplink"
                         href={`/blog/${blog.id}`}
                       >
                         <span>Read More</span>
                         <FaArrowRightLong className="grouplink-hover:text-blue-700" />
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </Link>
