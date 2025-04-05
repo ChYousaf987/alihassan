@@ -3,8 +3,19 @@ import { useEffect, useState } from "react";
 import { db } from "../../config/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import Link from "next/link";
+import { FiSearch } from "react-icons/fi";
 import Image from "next/image";
 import { loadGetInitialProps } from "next/dist/shared/lib/utils";
+import { SlCalender } from "react-icons/sl";
+import { FaArrowRightLong } from "react-icons/fa6";
+import { format } from "date-fns";
+
+const getLimitedHTML = (html, limit = 100) => {
+  const tempDiv = document.createElement("div");
+  tempDiv.innerHTML = html;
+  const text = tempDiv.textContent || tempDiv.innerText || "";
+  return text.substring(0, limit) + (text.length > limit ? "..." : "");
+};
 
 export default function BlogList() {
   const [blogs, setBlogs] = useState([]);
@@ -76,12 +87,12 @@ export default function BlogList() {
   }, [search]);
 
   return (
-    <div className="min-h-screen max-w-5xl mx-auto p-6 bg-black">
+    <div className="min-h-screen p-6 bg-black mt-16">
       <h2 className="text-3xl font-bold mb-6 text-center">Latest Blogs</h2>
 
       <div className="flex justify-between">
         <div>
-          <select onChange={(e) => setCategory(e.target.value)} name="" id="">
+          <select onChange={(e) => setCategory(e.target.value)} name="" id="" className="text-black p-2 pr-8">
             <option value="" disabled>
               Select Category
             </option>
@@ -91,8 +102,15 @@ export default function BlogList() {
           </select>
         </div>
 
-        <div>
-          <input value={search} onChange={(e) => setSearch(e.target.value)} type="text" />
+        <div className="relative">
+          <input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            type="text"
+            placeholder="Search"
+            className="text-black p-2 pr-10 w-full rounded"
+          />
+          <FiSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none" />
         </div>
       </div>
 
@@ -102,20 +120,56 @@ export default function BlogList() {
         <p className="text-center">No blogs available.</p>
       ) : (
         <div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {filteredBlogs.map((blog) => (
-              <Link href={`/blog/${blog.id}`} key={blog.id}>
-                <div className="bg-black rounded-lg shadow-md p-4 cursor-pointer hover:shadow-lg transition">
-                  <img
-                    src={blog.image}
-                    alt={blog.title}
-                    className="w-full h-40 object-cover rounded-md mb-2"
-                  />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+          {filteredBlogs.map((blog) => {
+            const limitedText = getLimitedHTML(blog.value, 100); // Replace 'value' if your field name is different
 
-                  <h3 className="text-lg font-semibold">{blog.title}</h3>
+            return (
+              <Link href={`/blog/${blog.id}`} key={blog.id} className="group">
+                <div className="bg-gray-900 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition">
+                  <div className="overflow-hidden w-full h-40 object-cover rounded-md">
+                    <img
+                      src={blog.image}
+                      alt={blog.title}
+                      className="w-full h-40 object-cover rounded-md mb-2 transition-transform duration-300 ease-in-out group-hover:scale-125"
+                    />
+                  </div>
+
+                  <div className="p-4">
+                    <p className="text-white flex items-center gap-3">
+                      <SlCalender />
+                      <span>
+                        {format(
+                          new Date(blog.createdAt.seconds * 1000),
+                          "PPP"
+                        )}
+                      </span>
+                    </p>
+
+                    <h3 className="text-lg font-semibold text-white mt-2 group-hover:text-blue-700">
+                      {blog.title}
+                    </h3>
+
+                    <div
+                      dangerouslySetInnerHTML={{ __html: limitedText }}
+                      className="w-full mt-2 text-gray-300"
+                    />
+
+                    <a
+                      className="text-white flex items-center gap-3 mt-6 hover:text-blue-700 transition-colors duration-300 ease-in-out grouplink"
+                      href={`/blog/${blog.id}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}
+                    >
+                      <span>Read More</span>
+                      <FaArrowRightLong className="grouplink-hover:text-blue-700" />
+                    </a>
+                  </div>
                 </div>
               </Link>
-            ))}
+            );
+          })}
           </div>
         </div>
       )}

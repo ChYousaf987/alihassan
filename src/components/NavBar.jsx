@@ -47,28 +47,30 @@ const Navbar = () => {
           </Link>
         </div>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex flex-grow justify-center font-bold items-center font-sans text-xl space-x-6">
-          {navItems.map((link, index) => (
-            <Link href={link.path || "#"} key={index} className="flex items-center">
-              <span
-                className={`ml-2 font-semibold text-md transition duration-300 ${
-                  pathname === link.path ? "text-white" : "text-white"
-                }`}
-              >
-                {link.name}
-              </span>
-            </Link>
-          ))}
-        </div>
+        <div className="flex items-center gap-12">
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex flex-grow justify-center font-bold items-center font-sans text-xl space-x-6">
+            {navItems.map((link, index) => (
+              <Link href={link.path || "#"} key={index} className="flex items-center">
+                <span
+                  className={`ml-2 font-semibold text-md transition duration-300 ${
+                    pathname === link.path ? "text-white" : "text-white"
+                  }`}
+                >
+                  {link.name}
+                </span>
+              </Link>
+            ))}
+          </div>
 
-        {/* Contact Button */}
-        <div className="hidden md:flex items-center">
-          <Link href="#contact">
-            <button className="rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white font-semibold font-sans py-2 px-4 transition duration-300">
-              Contact Us
-            </button>
-          </Link>
+          {/* Contact Button */}
+          <div className="hidden md:flex items-center">
+            <Link href="#contact">
+              <button className="rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white font-semibold font-sans py-2 px-4 transition duration-300">
+                Contact Us
+              </button>
+            </Link>
+          </div>
         </div>
 
         {/* Mobile Menu Button */}

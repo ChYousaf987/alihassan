@@ -26,7 +26,7 @@ export default function Home() {
       <div className="container mx-auto px-3 md:px-6">
         <Skills />
         <Work />
-        <Services />
+        {/* <Services /> */}
       </div>
 
       {/* Tech Stack Section */}

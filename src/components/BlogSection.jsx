@@ -107,13 +107,16 @@ const BlogSection = () => {
                         dangerouslySetInnerHTML={{ __html: limitedText }}
                         className="w-full"
                       />
-                      <Link
+                      <a
                         className="text-white flex items-center gap-3 mt-6 hover:text-blue-700 transition-colors duration-300 ease-in-out grouplink"
                         href={`/blog/${blog.id}`}
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevent parent navigation
+                        }}
                       >
                         <span>Read More</span>
                         <FaArrowRightLong className="grouplink-hover:text-blue-700" />
-                      </Link>
+                      </a>
                     </div>
                   </div>
                 </Link>
