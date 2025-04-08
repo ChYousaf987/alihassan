@@ -87,7 +87,7 @@ export default function BlogList() {
   }, [search]);
 
   return (
-    <div className="min-h-screen p-6 bg-black pt-20">
+    <div className="min-h-screen p-6 bg-[#121212] pt-20">
       <h2 className="text-3xl font-bold mb-6 text-center">Latest Blogs</h2>
 
       <div className="flex justify-between">

@@ -36,11 +36,11 @@ export default function BlogDetail() {
     fetchBlog();
   }, [id]);
 
-  if (loading) return <div className="flex justify-center items-center w-screen h-screen"><p className="text-center">Loading..</p></div>;
-  if (!blog) return <div className="flex justify-center items-center w-screen h-screen"><p className="text-center">Blog not found..</p></div>
+  if (loading) return <div className="flex justify-center items-center w-screen h-screen bg-[#121212] text-white"><p className="text-center">Loading..</p></div>;
+  if (!blog) return <div className="flex justify-center items-center w-screen h-screen bg-[#121212] text-white"><p className="text-center">Blog not found..</p></div>
 
   return (
-    <div className="min-h-screen mx-auto p-6 pt-20">
+    <div className="min-h-screen mx-auto p-6 pt-20 bg-[#121212] text-white">
       <img src={blog.image} alt={blog.title} className="w-full h-64 object-cover rounded-md mb-4" />
       <h1 className="text-3xl font-bold mb-4">{blog.title}</h1>
       <div className="p-3">

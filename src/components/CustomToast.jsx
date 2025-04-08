@@ -61,7 +61,7 @@ const CustomToast = ({ severity = 'success', message = 'OK', handleClose }) => {
     }
   };
   return (
-    <div className="flex items-center w-full max-w-xs p-4 mb-4 rounded-lg shadow text-gray-400 bg-gray-800 fixed top-6 right-4 z-10">
+    <div className="flex items-center w-full max-w-xs p-4 mb-4 rounded-lg shadow text-gray-400 bg-gray-800 fixed bottom-4 right-4 z-1000">
       {renderIcon()}
       <div className="ms-3 text-sm font-normal">{message}</div>
       <CloseButton handleClose={handleClose} />

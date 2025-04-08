@@ -81,8 +81,8 @@ const BlogSection = () => {
               const limitedText = getLimitedHTML(blog.value, 100); // Replace 'content' if your field is different
 
               return (
-                <Link href={`/blog/${blog.id}`} key={blog.id} className="group">
-                  <div className="bg-gray-900 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition">
+                <div className="" key={blog.id}>
+                  <div className="bg-gray-900 rounded-lg shadow-md hover:shadow-lg transition">
                     <div className="overflow-hidden w-full h-40 object-cover rounded-md">
                       <img
                         src={blog.image}
@@ -100,15 +100,15 @@ const BlogSection = () => {
                           )}
                         </span>
                       </p>
-                      <h3 className="text-lg font-semibold text-white mt-2 group-hover:text-blue-700">
+                      <Link  href={`/blog/${blog.id}`} key={blog.id} className="cursor-pointer text-lg font-semibold text-white mt-2 hover:text-blue-700">
                         {blog.title}
-                      </h3>
+                      </Link>
                       <div
                         dangerouslySetInnerHTML={{ __html: limitedText }}
                         className="w-full"
                       />
-                      <a
-                        className="text-white flex items-center gap-3 mt-6 hover:text-blue-700 transition-colors duration-300 ease-in-out grouplink"
+                      <Link
+                        className="cursor-pointer text-white flex items-center gap-3 mt-6 hover:text-blue-700 transition-colors duration-300 ease-in-out grouplink"
                         href={`/blog/${blog.id}`}
                         onClick={(e) => {
                           e.stopPropagation(); // Prevent parent navigation
@@ -116,10 +116,10 @@ const BlogSection = () => {
                       >
                         <span>Read More</span>
                         <FaArrowRightLong className="grouplink-hover:text-blue-700" />
-                      </a>
+                      </Link>
                     </div>
                   </div>
-                </Link>
+                </div>
               );
             })}
           </div>

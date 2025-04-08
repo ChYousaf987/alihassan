@@ -41,15 +41,17 @@ const ContactSection = () => {
           <button disabled={isDisabled} type='submit' className="rounded-md text-sm px-4 py-2.5 w-full !mt-6 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 hover:bg-slate-200 text-white">Message</button>
         </form>
       </div>
-      {
-        toast.visible ? 
-          <CustomToast
-            severity={toast.severity}
-            message={toast.message}
-            handleClose={() => { setToast(defaultToastState); }}
-          />
-          : null
-      }
+      <div>
+        {
+          toast.visible ? 
+            <CustomToast
+              severity={toast.severity}
+              message={toast.message}
+              handleClose={() => { setToast(defaultToastState); }}
+            />
+            : null
+        }
+      </div>
     </section>
   );
 };

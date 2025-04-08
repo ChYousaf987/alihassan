@@ -24,7 +24,7 @@ export const ReactData = [
 	},
 	{
 		backgroundIMG:"https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041859.jpg?semt=ais_hybrid&w=740",
-		title: "French Park Medical Centre",
+		title: "French Park Medical",
 		desc: "Crafted a sleek and modern website for French Park Medical Centre",
 		tech: ["Next.js", "ThreeJs", "TailwindCss"],
 		gitlink: "/",

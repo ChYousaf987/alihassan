@@ -20,42 +20,57 @@ const WorkCard = ({ w, tabId }) => {
 				className="works-card group relative bg-cover bg-center rounded-lg overflow-hidden"
 				style={{ backgroundImage: `url(${w.backgroundIMG})` }}
 			>
-				<div className="works-container absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition duration-300 p-4 text-white flex justify-center items-center">
+				<div className="works-container absolute inset-0 bg-black/70 opacity-100  transition duration-300 p-4 text-white flex">
 					<div>
-						<div className="mid-work mt-2">
-							<p className="work-title text-lg font-semibold">{w.title}</p>
-							<p className="work-desc text-sm">{w.desc}</p>
+						<div className="mid-work mt-8 mb-0">
+							<p className="work-title text-lg font-semibold m-0 p-0">{w.title}</p>
+							<p className="work-desc text-sm m-0 p-0">{w.desc}</p>
 						</div>
-						<div className="top-work mt-2">
-							<div className="right flex gap-2">
-								{w.gitlink && (
-									<a
-										className="work-git text-white"
-										href={w.gitlink}
-										target="_blank"
-										rel="noopener noreferrer"
-									>
-										<FiGithub />
-									</a>
-								)}
-								{tabId === "react-native" ? (
-									<a
-										href={w.app}
-										download={w.title}
-										target="_blank"
-										rel="noopener noreferrer"
-										className="work-link text-white"
-									>
-										<FiDownload />
-									</a>
-								) : (
-									<button
-										onClick={() => setShowModal(true)}
-										className="work-link text-white"
-									>
-										<IoOpenOutline />
-									</button>
-								)}
+						<div>
+							<div>
+							{w.tech && (
+								<div className="mb-4">
+									<div className="flex flex-wrap justify-center gap-2">
+									{w.tech.slice(0, 3).map((tech, idx) => (
+										<small key={idx} className="bg-gray-700 text-[10px] text-white px-2 py-1 rounded">
+										{tech}
+										</small>
+									))}
+									</div>
+								</div>
+							)}
+							</div>
+							<div className="top-work mt-2">
+								<div className="right flex gap-2">
+									{w.gitlink && (
+										<a
+											className="work-git text-white"
+											href={w.gitlink}
+											target="_blank"
+											rel="noopener noreferrer"
+										>
+											<FiGithub />
+										</a>
+									)}
+									{tabId === "react-native" ? (
+										<a
+											href={w.app}
+											download={w.title}
+											target="_blank"
+											rel="noopener noreferrer"
+											className="work-link text-white"
+										>
+											<FiDownload />
+										</a>
+									) : (
+										<button
+											onClick={() => setShowModal(true)}
+											className="work-link text-white"
+										>
+											<IoOpenOutline />
+										</button>
+									)}
+								</div>
 							</div>
 						</div>
 					</div>

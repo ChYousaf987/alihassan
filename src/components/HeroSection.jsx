@@ -8,7 +8,7 @@ import { motion } from 'motion/react';
 
 const HeroSection = () => {
   return (
-    <section className='min-h-[95vh]  flex flex-col justify-evenly'>
+    <section id='home' className='min-h-[95vh]  flex flex-col justify-evenly'>
       <div className='grid grid-cols-1 pt-12 lg:grid-cols-12 my-4 h-[100%]'>
         <motion.div
           className='col-span-4 place-self-center  lg:mt-0 lg:order-1'

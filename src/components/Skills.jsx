@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion } from "framer-motion";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, useAnimationControls, useMotionValue } from "framer-motion";
 
 const skillsData = {
   All: [
@@ -36,8 +36,58 @@ const skillsData = {
   ],
 };
 
-const   Skills = () => {
+const Skills = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [duplicatedSkills, setDuplicatedSkills] = useState([]);
+  const [isHovering, setIsHovering] = useState(false);
+  const controls = useAnimationControls();
+  const containerRef = useRef(null);
+  const x = useMotionValue(0);
+
+  useEffect(() => {
+    const skills = skillsData[selectedCategory];
+    const duplicated = [...skills, ...skills, ...skills];
+    setDuplicatedSkills(duplicated);
+
+    if (!isHovering) {
+      startAnimation();
+    }
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    if (isHovering) {
+      controls.stop();
+    } else {
+      const currentX = x.get();
+      startAnimation(currentX);
+    }
+  }, [isHovering]);
+
+  const startAnimation = (startFrom = 0) => {
+    const skills = skillsData[selectedCategory];
+    const itemCount = skills.length;
+    const itemWidth = 112;
+    const containerWidth = containerRef.current?.clientWidth || 0;
+    const visibleItems = Math.ceil(containerWidth / itemWidth);
+    const moveDistance = itemCount * itemWidth;
+
+    // Optimize duration based on visible items
+    const baseDuration = 15;
+    const duration = Math.max(
+      baseDuration,
+      baseDuration * (visibleItems / 4)
+    );
+
+    controls.start({
+      x: [startFrom, -moveDistance],
+      transition: {
+        repeat: Infinity,
+        repeatType: "loop",
+        duration: duration,
+        ease: "linear",
+      }
+    });
+  };
 
   return (
     <div id="skills" className="py-10 text-center text-white flex flex-col items-center">
@@ -58,34 +108,35 @@ const   Skills = () => {
           <button
             key={category}
             onClick={() => setSelectedCategory(category)}
-            className={`px-4 md:px-6 py-2 text-lg font-semibold rounded-md transition-all duration-300 ${
-              selectedCategory === category ? "bg-blue-500 text-white" : "text-gray-400"
-            }`}
+            className={`px-4 md:px-6 py-2 text-lg font-semibold rounded-md transition-all duration-300 ${selectedCategory === category ? "bg-blue-500 text-white" : "text-gray-400"
+              }`}
           >
             {category}
           </button>
         ))}
       </div>
 
-      {/* Skills Grid with Card Style */}
-      <motion.div
-        className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 place-items-center px-4 md:px-8"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      >
-        {skillsData[selectedCategory].slice(0, 12).map((skill, index) => (
-          <div
-          key={index}
-          className="relative w-28 h-28 flex flex-col items-center justify-center bg-gray-900 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300 border-2 border-gray-800 hover:border-purple-700 transition-colors"
+      {/* Marquee Container */}
+      <div className="w-full overflow-hidden min-h-[145px] pt-4" ref={containerRef}>
+        <motion.div
+          className="flex"
+          animate={controls}
+          style={{ x }}
+          onHoverStart={() => setIsHovering(true)}
+          onHoverEnd={() => setIsHovering(false)}
         >
-          <div className="absolute top-[-2px] left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-purple-700 to-transparent"></div>
-        
-          <img src={skill.img} alt={skill.name} className="w-12 h-12 mb-2 relative" />
-          <span className="text-sm relative">{skill.name}</span>
-        </div>                                  
-        ))}
-      </motion.div>
+          {duplicatedSkills.map((skill, index) => (
+            <div
+              key={index}
+              className="flex-shrink-0 mx-4 relative w-28 h-28 flex flex-col items-center justify-center bg-gray-900 rounded-lg shadow-lg border-2 border-gray-800 hover:border-purple-700 hover:scale-105 transition-all duration-300"
+            >
+              <div className="absolute top-[-2px] left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-purple-700 to-transparent"></div>
+              <img src={skill.img} alt={skill.name} className="w-12 h-12 mb-2 relative" />
+              <span className="text-sm relative">{skill.name}</span>
+            </div>
+          ))}
+        </motion.div>
+      </div>
     </div>
   );
 };
