@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import { motion, useAnimationControls, useMotionValue } from "framer-motion";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
 
 const skillsData = {
   All: [
@@ -38,56 +38,6 @@ const skillsData = {
 
 const Skills = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [duplicatedSkills, setDuplicatedSkills] = useState([]);
-  const [isHovering, setIsHovering] = useState(false);
-  const controls = useAnimationControls();
-  const containerRef = useRef(null);
-  const x = useMotionValue(0);
-
-  useEffect(() => {
-    const skills = skillsData[selectedCategory];
-    const duplicated = [...skills, ...skills, ...skills];
-    setDuplicatedSkills(duplicated);
-
-    if (!isHovering) {
-      startAnimation();
-    }
-  }, [selectedCategory]);
-
-  useEffect(() => {
-    if (isHovering) {
-      controls.stop();
-    } else {
-      const currentX = x.get();
-      startAnimation(currentX);
-    }
-  }, [isHovering]);
-
-  const startAnimation = (startFrom = 0) => {
-    const skills = skillsData[selectedCategory];
-    const itemCount = skills.length;
-    const itemWidth = 112;
-    const containerWidth = containerRef.current?.clientWidth || 0;
-    const visibleItems = Math.ceil(containerWidth / itemWidth);
-    const moveDistance = itemCount * itemWidth;
-
-    // Optimize duration based on visible items
-    const baseDuration = 15;
-    const duration = Math.max(
-      baseDuration,
-      baseDuration * (visibleItems / 4)
-    );
-
-    controls.start({
-      x: [startFrom, -moveDistance],
-      transition: {
-        repeat: Infinity,
-        repeatType: "loop",
-        duration: duration,
-        ease: "linear",
-      }
-    });
-  };
 
   return (
     <div id="skills" className="py-10 text-center text-white flex flex-col items-center">
@@ -108,34 +58,27 @@ const Skills = () => {
           <button
             key={category}
             onClick={() => setSelectedCategory(category)}
-            className={`px-4 md:px-6 py-2 text-lg font-semibold rounded-md transition-all duration-300 ${selectedCategory === category ? "bg-blue-500 text-white" : "text-gray-400"
-              }`}
+            className={`px-4 md:px-6 py-2 text-lg font-semibold rounded-md transition-all duration-300 ${
+              selectedCategory === category ? "bg-blue-500 text-white" : "text-gray-400"
+            }`}
           >
             {category}
           </button>
         ))}
       </div>
 
-      {/* Marquee Container */}
-      <div className="w-full overflow-hidden min-h-[145px] pt-4" ref={containerRef}>
-        <motion.div
-          className="flex"
-          animate={controls}
-          style={{ x }}
-          onHoverStart={() => setIsHovering(true)}
-          onHoverEnd={() => setIsHovering(false)}
-        >
-          {duplicatedSkills.map((skill, index) => (
-            <div
-              key={index}
-              className="flex-shrink-0 mx-4 relative w-28 h-28 flex flex-col items-center justify-center bg-gray-900 rounded-lg shadow-lg border-2 border-gray-800 hover:border-purple-700 hover:scale-105 transition-all duration-300"
-            >
-              <div className="absolute top-[-2px] left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-purple-700 to-transparent"></div>
-              <img src={skill.img} alt={skill.name} className="w-12 h-12 mb-2 relative" />
-              <span className="text-sm relative">{skill.name}</span>
-            </div>
-          ))}
-        </motion.div>
+      {/* Skills Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 px-12 max-w-6xl w-full">
+        {skillsData[selectedCategory].map((skill, index) => (
+          <div
+            key={index}
+            className="flex-shrink-0 mx-4 relative w-44 h-44 flex flex-col items-center justify-center bg-gray-900 rounded-lg shadow-lg border-2 border-gray-800 hover:border-purple-700 hover:scale-105 transition-all duration-300"
+          >
+            <div className="absolute top-[-2px] left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-purple-700 to-transparent"></div>
+            <img src={skill.img} alt={skill.name} className="w-12 h-12 mb-2 relative" />
+            <span className="text-sm relative">{skill.name}</span>
+          </div>
+        ))}
       </div>
     </div>
   );
