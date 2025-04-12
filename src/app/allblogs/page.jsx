@@ -1,8 +1,7 @@
-import dynamic from "next/dynamic";
+// app/allblogs/page.jsx
+"use client";
 
-const BlogList = dynamic(() => import("../../components/BlogList"), {
-  ssr: false,
-});
+import BlogList from "../../components/BlogList";
 
 export default function AllBlogsPage() {
   return <BlogList />;
