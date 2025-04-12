@@ -1,9 +1,9 @@
-import BlogList from '@/components/allBlogs';
-import React from 'react';
+import dynamic from "next/dynamic";
 
+const BlogList = dynamic(() => import("../../components/BlogList"), {
+  ssr: false,
+});
 
-const AllBlogs = () => {
-    return < BlogList  />
-};
-
-export default AllBlogs;
+export default function AllBlogsPage() {
+  return <BlogList />;
+}
