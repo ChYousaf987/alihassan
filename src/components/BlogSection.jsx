@@ -78,7 +78,7 @@ const BlogSection = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {blogs.map((blog) => {
-              const limitedText = getLimitedHTML(blog.value, 100); // Replace 'content' if your field is different
+              const limitedText = getLimitedHTML(blog.value, 20); // Replace 'content' if your field is different
 
               return (
                 <div className="" key={blog.id}>
