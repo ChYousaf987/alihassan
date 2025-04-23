@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState,useEffect  } from "react";
 import { FiDownload, FiGithub } from "react-icons/fi";
 import { IoOpenOutline } from "react-icons/io5";
+
 
 const WorkCard = ({ w, tabId }) => {
 	const [showModal, setShowModal] = useState(false);
@@ -13,6 +14,19 @@ const WorkCard = ({ w, tabId }) => {
 	const prevSlide = () => {
 		setCurrentImage((prev) => (prev - 1 + w.images.length) % w.images.length);
 	};
+
+	useEffect(() => {
+		if (showModal) {
+			document.body.style.overflow = 'hidden';
+		} else {
+			document.body.style.overflow = 'auto';
+		}
+	
+		// Cleanup in case component unmounts
+		return () => {
+			document.body.style.overflow = 'auto';
+		};
+	}, [showModal]);
 
 	return (
 		<>
