@@ -64,7 +64,7 @@ export default function Home() {
 
         {/* Live Chat Tag */}
         <span className="fixed bottom-4 right-[-120px] opacity-0 group-hover:opacity-100 group-hover:right-20 z-40 text-white text-sm bg-green-500 p-2 rounded-md shadow-lg transition-all duration-500 ease-out transform">
-          Live Chat
+          Live
         </span>
       </div>
 
