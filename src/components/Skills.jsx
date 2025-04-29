@@ -40,26 +40,26 @@ const Skills = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   return (
-    <div id="skills" className="py-10 text-center text-white flex flex-col items-center">
+    <div id="skills" className="py-10 text-white bg-black">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="heading flex justify-center items-center text-center"
+        className="text-center mb-8"
       >
-        <h2 className="text-2xl font-semibold mb-6 relative inline-block before:content-[''] before:w-16 before:h-1 before:bg-purple-500 before:absolute before:-bottom-1 before:left-1/2 before:-translate-x-1/2">
+        <h2 className="text-3xl font-bold relative inline-block mb-2 before:content-[''] before:w-20 before:h-1 before:bg-purple-500 before:absolute before:-bottom-2 before:left-1/2 before:-translate-x-1/2">
           Skills
         </h2>
       </motion.div>
 
       {/* Categories Buttons */}
-      <div className="flex flex-wrap justify-center space-x-4 md:space-x-8 mb-6">
+      <div className="flex flex-wrap justify-center gap-3 md:gap-6 px-4 mb-8">
         {Object.keys(skillsData).map((category) => (
           <button
             key={category}
             onClick={() => setSelectedCategory(category)}
-            className={`px-4 md:px-6 py-2 text-lg font-semibold rounded-md transition-all duration-300 ${
-              selectedCategory === category ? "bg-blue-500 text-white" : "text-gray-400"
+            className={`px-4 py-2 text-sm md:text-base font-medium rounded-md transition-all duration-300 ${
+              selectedCategory === category ? "bg-blue-500 text-white" : "text-gray-400 hover:text-white hover:bg-gray-800"
             }`}
           >
             {category}
@@ -68,17 +68,18 @@ const Skills = () => {
       </div>
 
       {/* Skills Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 px-12 max-w-6xl w-full">
-        {skillsData[selectedCategory].map((skill, index) => (
-          <div
-            key={index}
-            className="flex-shrink-0 mx-4 relative w-44 h-44 flex flex-col items-center justify-center bg-gray-900 rounded-lg shadow-lg border-2 border-gray-800 hover:border-purple-700 hover:scale-105 transition-all duration-300"
-          >
-            <div className="absolute top-[-2px] left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-purple-700 to-transparent"></div>
-            <img src={skill.img} alt={skill.name} className="w-12 h-12 mb-2 relative" />
-            <span className="text-sm relative">{skill.name}</span>
-          </div>
-        ))}
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+          {skillsData[selectedCategory].map((skill, index) => (
+            <div
+              key={index}
+              className="flex flex-col items-center justify-center p-4 bg-gray-900 rounded-lg shadow-md border border-gray-800 hover:border-purple-700 hover:scale-105 transition-transform"
+            >
+              <img src={skill.img} alt={skill.name} className="w-12 h-12 mb-2" />
+              <span className="text-sm">{skill.name}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
