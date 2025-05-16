@@ -7,7 +7,9 @@ module.exports = {
   ],
   theme: {
     fontFamily: {
-      primary: "var(--font-jetbrains-mono)"
+      primary: "var(--font-jetbrains-mono)",
+      montserrat: ["Montserrat", "sans-serif"],
+      openSans: ["Open Sans", "sans-serif"], // 👈 Add this
     },
     extend: {
       colors: {

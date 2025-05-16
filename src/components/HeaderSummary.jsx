@@ -32,8 +32,8 @@ const HeaderSummary = () => {
         delay: 0.2,
         scale: { type: "spring", visualDuration: 0.4, bounce: 0.5 },
       }}
-      className='container mx-auto px-4 py-8 rounded-md shadow-sm  text-white border-[1px] border-gray-600'>
-      <div className="flex flex-wrap gap-6 max-w-[80vw] text-white mx-auto">
+      className='container mx-auto px-4 py-8 rounded-md shadow-sm  border-[1px] border-gray-600'>
+      <div className="flex flex-wrap gap-6 max-w-[80vw]  mx-auto font-openSans">
         {
           headerSummaryStats.map((item, index) => (
             <HeaderSummaryItem key={index} value={item.number} text={item.text} />

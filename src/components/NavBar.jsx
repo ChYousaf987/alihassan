@@ -4,6 +4,8 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { TiThMenuOutline } from "react-icons/ti";
 import { ImCross } from "react-icons/im";
+import Image from "next/image";
+// import DarkModes from "../components/DarkModes";
 
 const sections = [
   { name: "Home", path: "#home", id: "home" },
@@ -13,7 +15,7 @@ const sections = [
   { name: "Blogs", path: "#blogs", id: "blogs" },
 ];
 
-const Navbar = () => {
+const Navbar = ({ darkMode, setDarkMode }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const pathname = usePathname();
@@ -34,7 +36,7 @@ const Navbar = () => {
       }
       window.history.pushState(null, null, hash);
     } else {
-      router.push("/" + hash); // Use client-side navigation instead of reload
+      router.push("/" + hash); // Client-side navigation
     }
   };
 
@@ -48,7 +50,7 @@ const Navbar = () => {
           }
         });
       },
-      { threshold: 0.3 } // Adjusted threshold
+      { threshold: 0.3 }
     );
 
     sections.forEach(({ id }) => {
@@ -81,38 +83,43 @@ const Navbar = () => {
   const isActive = (id) => activeSection === id;
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-black/50 backdrop-blur-md shadow-md p-2">
+    <nav className="fixed top-0 left-0 w-full z-50 bg-white/50 backdrop-blur-md shadow-md p-2">
       <div className="flex justify-between items-center max-w-7xl mx-auto px-4">
         <Link href="/#home" onClick={(e) => handleHashClick(e, "#home")}>
-          <img
+          <Image
             src="/assets/aktechtbg.png"
             alt="Logo"
-            className="h-16 rotate-logo"
+            width={100} // or any pixel width you want
+            height={100} // or corresponding height
+            className="rotate-logo"
           />
         </Link>
+        {/* <DarkModes darkMode={darkMode} setDarkMode={setDarkMode} /> */}
 
-        <div className="hidden md:flex md:items-center font-bold font-sans text-xl space-x-6 font-medium">
+        <div className="hidden md:flex md:items-center text-xl space-x-6 font-montserrat">
           {sections.map(({ name, path, id }) => (
             <Link
               key={id}
               href={`/${path}`}
               onClick={(e) => handleHashClick(e, path)}
-              className={`font-bold font-sans text-xl transition-colors ${
+              className={`transition-colors ${
                 isActive(id)
                   ? "text-yellow-400 font-semibold"
-                  : "text-white hover:text-yellow-300"
+                  : "hover:text-yellow-300"
               }`}
             >
               {name}
             </Link>
           ))}
-          <div className="hidden md:flex items-center">
-            <Link href="/#contact" onClick={(e) => handleHashClick(e, "#contact")}>
-              <button className="rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white font-semibold font-sans py-2 px-4 transition duration-300 hover:opacity-90">
-                Contact Us
-              </button>
-            </Link>
-          </div>
+          <Link
+            href="/#contact"
+            onClick={(e) => handleHashClick(e, "#contact")}
+            className="rounded-full bg-gradient-to-r px-4 from-blue-500 via-purple-500 to-pink-500 text-white font-semibold py-2 hover:opacity-90 inline-block"
+            // Optional: Add suppressHydrationWarning if third-party script persists
+            // suppressHydrationWarning
+          >
+            Contact Us
+          </Link>
         </div>
 
         <div className="md:hidden">
@@ -145,10 +152,14 @@ const Navbar = () => {
                 {name}
               </Link>
             ))}
-            <Link href="/#contact" onClick={(e) => handleHashClick(e, "#contact")}>
-              <button className="rounded-md bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white font-semibold py-2 px-4">
-                Contact Us
-              </button>
+            <Link
+              href="/#contact"
+              onClick={(e) => handleHashClick(e, "#contact")}
+              className="rounded-md bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white font-semibold py-2 px-4 inline-block"
+              // Optional: Add suppressHydrationWarning if needed
+              // suppressHydrationWarning
+            >
+              Contact Us
             </Link>
           </div>
         </div>
