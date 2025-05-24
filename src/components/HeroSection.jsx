@@ -10,8 +10,14 @@ const HeroSection = () => {
   return (
     <section
       id="home"
-      className="min-h-[95vh]  flex  relative  text-[#9ca4b0] px-3 md:px-6 flex-col justify-evenly"
+      className="min-h-[95vh]  flex  relative bg-[#0D1224] text-white px-3 md:px-6 flex-col justify-evenly"
     >
+      <div
+        className="absolute top-0 left-0 w-full h-full min-h-screen z-0 bg-no-repeat bg-cover bg-center bg-blend-overlay"
+        style={{
+          backgroundImage: `url('https://abusaid.netlify.app/hero.svg')`,
+        }}
+      ></div>
       <div className="grid grid-cols-1 pt-12 lg:grid-cols-12 my-4 h-[100%]">
         <motion.div
           className="col-span-4 place-self-center  lg:mt-0 lg:order-1"
@@ -62,7 +68,7 @@ const HeroSection = () => {
               I&apos;m Ali Hassan
             </span>
             <br />
-            <span className="text-3xl md:text-4xl lg:text-6xl xl:text-7xl font-montserrat text-">
+            <span className="text-3xl md:text-4xl lg:text-6xl xl:text-7xl font-montserrat text-white">
               <TypeAnimation
                 sequence={["App Developer", 1000, "Fullstack Developer", 1000]}
                 wrapper="span"
@@ -71,7 +77,7 @@ const HeroSection = () => {
               />
             </span>
           </h1>
-          <p className="font-openSans text-sm lg:text-xl mb-6">
+          <p className="font-openSans text-[#ADB7BE] text-sm lg:text-xl mb-6">
             Passionate coder aspiring to architect software solutions that
             seamlessly blend functionality and solve problems. Let&apos;s build
             the future together!

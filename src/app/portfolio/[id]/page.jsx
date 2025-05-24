@@ -13,9 +13,13 @@ export default function PortfolioPage({ params }) {
   }
 
   return (
+    <>
+    <div className="bg-black">
     <Portfolios
       w={portfolio}
       tabId={portfolio.tech.includes("React.js") ? "react" : "vue"}
     />
+    </div>
+    </>
   );
 }

@@ -40,21 +40,21 @@ export default function BlogDetail() {
 
   if (loading)
     return (
-      <div className="flex justify-center items-center w-screen h-screen">
+      <div className="flex justify-center items-center w-screen h-screen bg-[#0D1224] text-white">
         <p className="text-center">Loading...</p>
       </div>
     );
 
   if (error)
     return (
-      <div className="flex justify-center items-center w-screen h-screen">
+      <div className="flex justify-center items-center w-screen h-screen bg-[#0D1224] text-white">
         <p className="text-center">{error}</p>
       </div>
     );
 
   if (!blog)
     return (
-      <div className="flex justify-center items-center w-screen h-screen">
+      <div className="flex justify-center items-center w-screen h-screen bg-[#0D1224] text-white">
         <p className="text-center">Blog not found.</p>
       </div>
     );
@@ -63,24 +63,66 @@ export default function BlogDetail() {
     ? new Date(blog.createdAt.seconds * 1000)
     : new Date();
 
+  const reactions = blog?.reactions || {
+    heart: 20,
+    unicorn: 1,
+    wow: 1,
+    clap: 1,
+    fire: 1,
+  };
+
+  const tags = blog?.tags || [];
+
   return (
-    <main className="min-h-screen mx-auto p-6 md:p" role="main">
-      <Image
-        src={blog.image}
-        alt={blog.title}
-        width={800}
-        height={400}
-        className="rounded-md mb-4 object-contain"
-        unoptimized // remove if your image domain is configured in next.config.js
-      />
-      <h1 className="text-3xl font-bold mb-4">{blog.title}</h1>
-      <div className="p-3">
-        <div
-          dangerouslySetInnerHTML={{ __html: blog.value }}
-          className="w-full"
-        />
+    <main className="min-h-screen mx-auto max-w-5xl p-4 bg-[#0D1224] text-white">
+      <div className="w-full mb-6">
+        <div className="w-full mb-6 flex justify-center">
+          <Image
+            src={blog.image}
+            alt={blog.title}
+            width={800}
+            height={400}
+            className="rounded-md object-contain max-h-[400px] w-full"
+            unoptimized
+          />
+        </div>
       </div>
-      <p className="flex items-center gap-3 text-gray-600 mt-4">
+
+      <div className="flex items-center gap-4 mb-4">
+        <Image
+          src="/assets/me.webp" // replace if dynamic
+          alt="Author"
+          width={40}
+          height={40}
+          className="rounded-full"
+        />
+        <div>
+          <h3 className="font-bold uppercase text-sm">Abu Said</h3>
+          <p className="text-sm text-gray-400">
+            Posted on {format(createdAtDate, "PPP")}
+          </p>
+        </div>
+      </div>
+
+      <h1 className="text-3xl font-extrabold mb-4 text-white">{blog.title}</h1>
+
+      <div className="flex flex-wrap gap-2 mb-6">
+        {tags.map((tag, idx) => (
+          <span
+            key={idx}
+            className="text-sm text-green-400 bg-green-900/30 px-2 py-1 rounded-full"
+          >
+            #{tag}
+          </span>
+        ))}
+      </div>
+
+      <div
+        className="prose max-w-none prose-invert prose-lg"
+        dangerouslySetInnerHTML={{ __html: blog.value }}
+      />
+
+      <p className="flex items-center gap-2 text-gray-400 mt-6">
         <SlCalender />
         <span>{format(createdAtDate, "PPP")}</span>
       </p>

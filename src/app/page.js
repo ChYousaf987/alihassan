@@ -12,7 +12,7 @@ export default function Home() {
   const WhatsappNumber = "+923000000000";
 
   return (
-    <main className="flex flex-col relative bg-[#ffffff] text-black">
+    <main className="flex flex-col relative bg-[#0D1224] text-white">
       {/* Background Image with overlay */}
 
       {/* Page Content */}

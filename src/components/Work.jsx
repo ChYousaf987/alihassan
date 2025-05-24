@@ -24,7 +24,7 @@ const Work = () => {
         <div className="container my-6 py-8">
           <SectionHead>Portfolio</SectionHead>
           <motion.div
-            className="works-box"
+            className="flex"
             initial={{ opacity: 0 }}
             whileInView={fade}
           >

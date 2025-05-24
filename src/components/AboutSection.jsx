@@ -20,8 +20,14 @@ const AboutSection = () => {
   return (
     <section
       id="about"
-      className="text-[#9ca4b0] scroll-mt-[80px] relative bg-[#] pt-4 font-montserrat min-h-[60vh] px-4 md:px-8"
+      className="text-white scroll-mt-[80px] relative bg-[#0D1224] pt-4 font-montserrat min-h-[60vh] px-4 md:px-8"
     >
+      <div
+        className="absolute top-0 left-0 w-full h-full min-h-screen z-0 bg-no-repeat bg-cover bg-center bg-blend-overlay"
+        style={{
+          backgroundImage: `url('https://abusaid.netlify.app/hero.svg')`,
+        }}
+      ></div>
       <SectionHead>About Me</SectionHead>
 
       <div className="flex flex-col-reverse lg:flex-row items-center gap-8">
@@ -67,28 +73,28 @@ const AboutSection = () => {
               target="_blank"
               className="hover:scale-110 transition duration-300"
             >
-              <FaGithub className="text-[#9ca4b0]" />
+              <FaGithub size={30} className="text-[]" /> {/* GitHub black */}
             </a>
             <a
               href="https://linkedin.com/in/yourusername"
               target="_blank"
               className="hover:scale-110 transition duration-300"
             >
-              <FaLinkedin className="text-[#9ca4b0]" />
+              <FaLinkedin size={30} className="text-[#0077B5]" /> {/* LinkedIn blue */}
             </a>
             <a
               href="https://twitter.com/yourusername"
               target="_blank"
               className="hover:scale-110 transition duration-300"
             >
-              <FaTwitter className="text-[#9ca4b0]" />
+              <FaTwitter size={30} className="text-[#1DA1F2]" /> {/* Twitter blue */}
             </a>
             <a
               href="https://facebook.com/yourusername"
               target="_blank"
               className="hover:scale-110 transition duration-300"
             >
-              <FaFacebook className="text-[#9ca4b0]" />
+              <FaFacebook size={30} className="text-[#1877F2]" /> {/* Facebook blue */}
             </a>
           </div>
         </motion.div>

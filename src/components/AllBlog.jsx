@@ -8,6 +8,7 @@ import { SlCalender } from "react-icons/sl";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { format } from "date-fns";
 import Image from "next/image";
+import { FaCopy } from "react-icons/fa";
 
 const getLimitedHTML = (html, limit = 100) => {
   const tempDiv = document.createElement("div");
@@ -42,6 +43,15 @@ export default function BlogList() {
     { value: "lifestyle", label: "Lifestyle & Wellness" },
   ];
 
+  const predefinedCategories = blogCategories.map((c) => c.value);
+
+  const otherCategories = useMemo(() => {
+    const unknowns = blogs
+      .map((b) => b.category)
+      .filter((cat) => cat && !predefinedCategories.includes(cat));
+    return [...new Set(unknowns)];
+  }, [blogs]);
+
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
@@ -70,20 +80,28 @@ export default function BlogList() {
 
   const filteredBlogs = useMemo(() => {
     return blogs.filter((blo) => {
-      const matchesCategory = !category || blo?.category?.includes(category);
+      const matchesCategory =
+        !category ||
+        (category === "__other__"
+          ? !predefinedCategories.includes(blo?.category)
+          : blo?.category?.includes(category));
+
       const matchesSearch =
         !search ||
         blo.title.toLowerCase().includes(search.toLowerCase()) ||
         blo?.category?.toLowerCase().includes(search.toLowerCase());
+
       return matchesCategory && matchesSearch;
     });
   }, [blogs, category, search]);
 
   return (
-    <div className="min-h-screen p-6 pt-20">
-      <h2 className="text-3xl font-bold mb-6 text-center mt-6">Latest Blogs</h2>
+    <div className="min-h-screen p-6 bg-[#121212]">
+      <h2 className="text-3xl font-bold mb-6 text-center text-white mt-6">
+        Latest Blogs
+      </h2>
 
-      <div className="flex justify-between">
+      <div className="flex justify-between flex-wrap gap-4">
         <div>
           <select
             onChange={(e) => setCategory(e.target.value)}
@@ -97,6 +115,9 @@ export default function BlogList() {
                 {cate.label}
               </option>
             ))}
+            {otherCategories.length > 0 && (
+              <option value="__other__">Other</option>
+            )}
           </select>
         </div>
 
@@ -113,18 +134,18 @@ export default function BlogList() {
       </div>
 
       {loading ? (
-        <p className="text-center text-gray-500">Loading blogs...</p>
+        <p className="text-center text-white">Loading blogs...</p>
       ) : filteredBlogs.length === 0 ? (
-        <p className="text-center text-gray-500">No blogs available.</p>
+        <p className="text-center text-white">No blogs available.</p>
       ) : (
         <div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
             {filteredBlogs.map((blog) => {
-              const limitedText = getLimitedHTML(blog.value, 100);
+              const limitedText = getLimitedHTML(blog.value, 40);
 
               return (
                 <Link href={`/blog/${blog.id}`} key={blog.id} className="group">
-                  <div className="rounded-lg shadow-md cursor-pointer hover:shadow-lg transition">
+                  <div className="bg-gray-900 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition">
                     <div className="overflow-hidden w-full h-40 object-cover rounded-md">
                       <Image
                         src={blog.image}
@@ -136,19 +157,32 @@ export default function BlogList() {
                     </div>
 
                     <div className="p-4">
-                      <p className="text-[#9ca4b0] flex items-center gap-3">
-                        <SlCalender />
-                        <span>
-                          {blog.createdAt?.seconds
-                            ? format(
-                                new Date(blog.createdAt.seconds * 1000),
-                                "PPP"
-                              )
-                            : "Date not available"}
-                        </span>
-                      </p>
+                      <div className="flex items-center justify-between">
+                        <p className="text-[#9ca4b0] flex items-center gap-3">
+                          <SlCalender />
+                          <span>
+                            {blog.createdAt?.seconds
+                              ? format(
+                                  new Date(blog.createdAt.seconds * 1000),
+                                  "PPP"
+                                )
+                              : "Date not available"}
+                          </span>
+                        </p>
+                        <FaCopy
+                          className="cursor-pointer text-[#9ca4b0] hover:text-[#705df2] transition"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            const blogUrl = `${window.location.origin}/blog/${blog.id}`;
+                            navigator.clipboard
+                              .writeText(blogUrl)
+                              .then(() => {});
+                          }}
+                        />
+                      </div>
 
-                      <h3 className="text-lg font-semibold text-[#152b5a] mt-2 group-hover:text-blue-700">
+                      <h3 className="text-lg font-semibold text-white mt-2">
                         {blog.title}
                       </h3>
 

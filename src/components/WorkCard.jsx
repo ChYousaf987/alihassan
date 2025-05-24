@@ -3,10 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
-import { FiDownload, FiGithub } from "react-icons/fi";
+import { FiGithub } from "react-icons/fi";
 import { IoOpenOutline } from "react-icons/io5";
+import { FaGooglePlay, FaAppStoreIos } from "react-icons/fa";
 
-const WorkCard = ({ w, index, tabId }) => {
+const WorkCard = ({ w }) => {
   const [showModal, setShowModal] = useState(false);
   const [currentImage, setCurrentImage] = useState(0);
 
@@ -21,11 +22,7 @@ const WorkCard = ({ w, index, tabId }) => {
   };
 
   useEffect(() => {
-    if (showModal) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
+    document.body.style.overflow = showModal ? "hidden" : "auto";
     return () => {
       document.body.style.overflow = "auto";
     };
@@ -33,58 +30,64 @@ const WorkCard = ({ w, index, tabId }) => {
 
   return (
     <>
-      <div
-        className="works-card group relative bg-cover bg-center rounded-lg overflow-hidden"
-        style={{ backgroundImage: `url(${w.backgroundIMG})` }}
-      >
-        <div className="works-container absolute inset-0 bg-black/70 opacity-100 transition duration-300 p-4 text-white flex">
-          <div>
-            <div className="mid-work mt-8 mb-0">
-              <p className="work-title text-lg font-semibold m-0 p-0">
-                {w.title}
-              </p>
-              <p className="work-desc text-sm m-0 p-0">{w.desc}</p>
-            </div>
-            <div>
-              {w.tech && (
-                <div className="mb-4">
-                  <div className="flex flex-wrap justify-center gap-2">
-                    {w.tech.slice(0, 3).map((tech, idx) => (
-                      <small
-                        key={idx}
-                        className="bg-gray-700 text-[10px] text-white px-2 py-1 rounded"
-                      >
-                        {tech}
-                      </small>
-                    ))}
-                  </div>
-                </div>
-              )}
-              <div className="top-work mt-2">
-                <div className="right flex gap-2">
-                  {w.gitlink && (
-                    <a
-                      className="work-git text-white"
-                      href={w.gitlink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <FiGithub />
-                    </a>
-                  )}
-                  <Link
-                    href={`/portfolio/${w.id}`}
-                    className="work-link text-white flex items-center"
-                  >
-                    <IoOpenOutline />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
+      <div className="relative bg-gray-800 shadow-md overflow-hidden flex flex-col items-center w-full max-w-[25%] mx-auto transition hover:scale-[1.01] rounded-2xl">
+        <div className="relative w-[550px] h-[250px]">
+          <Image
+            src={w.backgroundIMG}
+            alt={w.title}
+            fill
+            className="object-contain "
+            unoptimized
+          />
+        </div>
+
+        <div className="text-center mt-4 mb-2 p-2">
+          <h3 className="text-lg font-semibold text-white">{w.title}</h3>
+          <p className="text-gray-400 text-sm">{w.desc}</p>
+        </div>
+
+        
+
+        <div className="flex justify-center gap-4 mb-2 text-white">
+          {w.gitlink && (
+            <a
+              href={w.gitlink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-gray-300"
+            >
+              <FiGithub size={18} />
+            </a>
+          )}
+          <Link href={`/portfolio/${w.id}`} className="hover:text-gray-300">
+            <IoOpenOutline size={18} />
+          </Link>
+        </div>
+
+        <div className="flex items-end justify-between gap-3 mt-2">
+          <a
+            href={w.playstore}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white p-2 rounded-full transition"
+            title="Google Play"
+          >
+            <FaGooglePlay size={20} />
+          </a>
+
+          <a
+            href={w.appstore}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white p-2 rounded-full transition"
+            title="App Store"
+          >
+            <FaAppStoreIos size={20} />
+          </a>
         </div>
       </div>
-      {/* Modal logic remains unchanged */}
+
+      {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4">
           <div className="bg-white rounded-lg max-w-3xl w-full p-6 relative max-h-[90vh] overflow-y-auto shadow-lg">
@@ -102,10 +105,10 @@ const WorkCard = ({ w, index, tabId }) => {
                     : w.backgroundIMG
                 }
                 alt={`slide-${currentImage}`}
-                width={600} // or your desired width
-                height={256} // or your desired height to match aspect ratio (e.g., 64 * 4)
+                width={600}
+                height={256}
                 className="rounded object-cover"
-                unoptimized // optional, if external images aren't allowed in next.config.js
+                unoptimized
               />
               {w.images && w.images.length > 1 && (
                 <>

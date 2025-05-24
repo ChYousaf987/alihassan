@@ -83,7 +83,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
   const isActive = (id) => activeSection === id;
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-white/50 backdrop-blur-md shadow-md p-2">
+    <nav className="fixed top-0 left-0 w-full z-50 bg-[#32343493] backdrop-blur-md shadow-md p-3">
       <div className="flex justify-between items-center max-w-7xl mx-auto px-4">
         <Link href="/#home" onClick={(e) => handleHashClick(e, "#home")}>
           <Image
