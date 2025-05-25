@@ -16,15 +16,14 @@ const Work = () => {
 
   return (
     <section
-      id="portfolio" // Changed from id="about" to id="portfolio" for clarity
-      className="text- scroll-mt-[80px] relative  font-montserrat min-h-[60vh] px-4 md:px-8"
+      id="portfolio"
+      className="scroll-mt-[80px] relative font-montserrat min-h-[60vh] px-4 md:px-8"
     >
-      
       <div className="works" id="portfolio">
         <div className="container my-6 py-8">
           <SectionHead>Portfolio</SectionHead>
           <motion.div
-            className="flex"
+            className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:flex items-center justify-between"
             initial={{ opacity: 0 }}
             whileInView={fade}
           >

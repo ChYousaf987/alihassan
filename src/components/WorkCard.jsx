@@ -30,7 +30,7 @@ const WorkCard = ({ w }) => {
 
   return (
     <>
-      <div className="relative bg-gray-800 shadow-md overflow-hidden flex flex-col items-center w-full max-w-[25%] mx-auto transition hover:scale-[1.01] rounded-2xl">
+      <div className="relative bg-gray-800 shadow-md overflow-hidden flex flex-col items-center w-full mx-auto transition hover:scale-[1.01] rounded-2xl md:max-w-[25%]">
         <div className="relative w-[550px] h-[250px]">
           <Image
             src={w.backgroundIMG}
@@ -45,8 +45,6 @@ const WorkCard = ({ w }) => {
           <h3 className="text-lg font-semibold text-white">{w.title}</h3>
           <p className="text-gray-400 text-sm">{w.desc}</p>
         </div>
-
-        
 
         <div className="flex justify-center gap-4 mb-2 text-white">
           {w.gitlink && (
