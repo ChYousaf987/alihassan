@@ -8,9 +8,9 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import { SlCalender } from "react-icons/sl";
-import { FaArrowRightLong } from "react-icons/fa6";
+import { FaArrowRightLong, FaCopy } from "react-icons/fa6";
 import Image from "next/image";
-import { FaCopy } from "react-icons/fa";
+import CustomToast from "./CustomToast"; // ✅ Toast import
 
 const getLimitedHTML = (html, limit = 100) => {
   const tempDiv = document.createElement("div");
@@ -28,6 +28,14 @@ const BlogSection = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showButton, setShowButton] = useState(false);
+
+  // ✅ Toast state
+  const defaultToastState = {
+    visible: false,
+    message: null,
+    severity: "success",
+  };
+  const [toast, setToast] = useState(defaultToastState);
 
   useEffect(() => {
     if (isInView) {
@@ -80,6 +88,7 @@ const BlogSection = () => {
           backgroundImage: `url('https://abusaid.netlify.app/hero.svg')`,
         }}
       ></div>
+
       <div className="relative z-10">
         <SectionHead>Blogs</SectionHead>
 
@@ -122,12 +131,22 @@ const BlogSection = () => {
                             <FaCopy
                               className="cursor-pointer text-[#9ca4b0] hover:text-[#705df2] transition"
                               onClick={(e) => {
-                                e.preventDefault(); // prevent Link navigation
-                                e.stopPropagation(); // stop bubbling
+                                e.preventDefault();
+                                e.stopPropagation();
                                 const blogUrl = `${window.location.origin}/blog/${blog.id}`;
                                 navigator.clipboard
                                   .writeText(blogUrl)
-                                  .then(() => {});
+                                  .then(() => {
+                                    setToast({
+                                      visible: true,
+                                      message: "Link copied to clipboard!",
+                                      severity: "success",
+                                    });
+
+                                    setTimeout(() => {
+                                      setToast(defaultToastState);
+                                    }, 2000);
+                                  });
                               }}
                             />
                           </div>
@@ -150,7 +169,6 @@ const BlogSection = () => {
             </div>
           )}
 
-          {/* Show "View More" only if more than 6 blogs exist */}
           {showButton && (
             <div className="flex justify-center mt-5">
               <button
@@ -163,6 +181,17 @@ const BlogSection = () => {
           )}
         </div>
       </div>
+
+      {/* ✅ Toast rendering */}
+      {toast.visible && (
+        <div className="fixed top-5 right-5 z-[9999]">
+          <CustomToast
+            severity={toast.severity}
+            message={toast.message}
+            handleClose={() => setToast(defaultToastState)}
+          />
+        </div>
+      )}
     </section>
   );
 };

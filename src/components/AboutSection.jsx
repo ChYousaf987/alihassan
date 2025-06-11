@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import PcModelCanvas from "./canvas/PcModelCanvas";
 import SectionHead from "./SectionHead";
 import { motion, useAnimation, useInView } from "framer-motion";
-import { FaGithub, FaLinkedin, FaTwitter, FaFacebook } from "react-icons/fa"; // Importing React Icons
+import { FaGithub, FaLinkedin, FaTwitter, FaFacebook } from "react-icons/fa";
 
 const AboutSection = () => {
   const ref = useRef(null);
@@ -22,21 +22,23 @@ const AboutSection = () => {
       id="about"
       className="text-white scroll-mt-[80px] relative bg-[#0D1224] pt-4 font-montserrat min-h-[60vh] px-4 md:px-8"
     >
+      {/* Background */}
       <div
         className="absolute top-0 left-0 w-full h-full min-h-screen z-0 bg-no-repeat bg-cover bg-center bg-blend-overlay"
         style={{
           backgroundImage: `url('https://abusaid.netlify.app/hero.svg')`,
         }}
       ></div>
+
       <SectionHead>About Me</SectionHead>
 
-      <div className="flex flex-col-reverse lg:flex-row items-center gap-8">
-        {/* Left Side - 3D Model or Image (Reduced Size) */}
+      <div className="relative z-10 flex flex-col-reverse lg:flex-row items-center gap-8">
+        {/* 3D Model */}
         <div className="w-full lg:w-[50%] h-[50vh] flex justify-center">
           <PcModelCanvas />
         </div>
 
-        {/* Right Side - Text Section (Increased Width) */}
+        {/* About Text */}
         <motion.div
           ref={ref}
           variants={{
@@ -51,50 +53,52 @@ const AboutSection = () => {
           }}
           className="w-full lg:w-[50%] md:text-[1.35rem] text-justify"
         >
-          <div className="font-openSans text-[#9ca4b0]">
+          <p className="font-openSans text-[#9ca4b0]">
             I specialize in mobile app development using React Native, Node.js,
             and Firebase to build high-performance, user-friendly applications.
-          </div>
-
-          <div className="mt-4 font-openSans text-[#9ca4b0]">
+          </p>
+          <p className="mt-4 font-openSans text-[#9ca4b0]">
             My tech stack includes Redux Toolkit, TypeScript, Stripe, and
             MongoDB, with a passion for learning new technologies.
-          </div>
-
-          <div className="mt-4 font-openSans text-[#9ca4b0]">
+          </p>
+          <p className="mt-4 font-openSans text-[#9ca4b0]">
             Outside of coding, I enjoy exploring app trends, watching tech
             content, and solving Rubik’s cubes and Sudoku.
-          </div>
+          </p>
 
-          {/* Social Media Links */}
+          {/* Social Icons */}
           <div className="mt-6 flex gap-4 text-2xl">
             <a
-              href="https://github.com/yourusername"
+              href="https://github.com/AliHassan5927"
               target="_blank"
+              rel="noopener noreferrer"
               className="hover:scale-110 transition duration-300"
             >
-              <FaGithub size={30} className="text-[]" /> {/* GitHub black */}
+              <FaGithub size={30} className="text-white" />
             </a>
             <a
-              href="https://linkedin.com/in/yourusername"
+              href="https://www.linkedin.com/in/ali-hassan-react-native/"
               target="_blank"
+              rel="noopener noreferrer"
               className="hover:scale-110 transition duration-300"
             >
-              <FaLinkedin size={30} className="text-[#0077B5]" /> {/* LinkedIn blue */}
+              <FaLinkedin size={30} className="text-[#0077B5]" />
             </a>
             <a
               href="https://twitter.com/yourusername"
               target="_blank"
+              rel="noopener noreferrer"
               className="hover:scale-110 transition duration-300"
             >
-              <FaTwitter size={30} className="text-[#1DA1F2]" /> {/* Twitter blue */}
+              <FaTwitter size={30} className="text-[#1DA1F2]" />
             </a>
             <a
               href="https://facebook.com/yourusername"
               target="_blank"
+              rel="noopener noreferrer"
               className="hover:scale-110 transition duration-300"
             >
-              <FaFacebook size={30} className="text-[#1877F2]" /> {/* Facebook blue */}
+              <FaFacebook size={30} className="text-[#1877F2]" />
             </a>
           </div>
         </motion.div>

@@ -9,7 +9,7 @@ import Work from "@/components/Work";
 import Image from "next/image";
 
 export default function Home() {
-  const WhatsappNumber = "+923000000000";
+  const WhatsappNumber = "+923089440326";
 
   return (
     <main className="flex flex-col relative bg-[#0D1224] text-white">

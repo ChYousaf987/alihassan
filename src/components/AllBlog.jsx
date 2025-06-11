@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useMemo, useState } from "react";
 import { db } from "../../config/firebase";
 import { collection, getDocs } from "firebase/firestore";
@@ -19,44 +20,34 @@ const getLimitedHTML = (html, limit = 100) => {
 
 export default function BlogList() {
   const [blogs, setBlogs] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState("");
   const [search, setSearch] = useState("");
 
-  const blogCategories = [
-    { value: "web-development", label: "Web Development" },
-    { value: "mobile-development", label: "Mobile Development" },
-    { value: "ai-ml", label: "AI & Machine Learning" },
-    { value: "cybersecurity", label: "Cybersecurity" },
-    { value: "cloud-computing", label: "Cloud Computing" },
-    { value: "data-science", label: "Data Science" },
-    { value: "programming", label: "Programming" },
-    { value: "tech-news", label: "Tech News" },
-    { value: "software-engineering", label: "Software Engineering" },
-    { value: "gadgets", label: "Gadgets & Reviews" },
-    { value: "gaming", label: "Gaming" },
-    { value: "productivity", label: "Productivity & Tools" },
-    { value: "entrepreneurship", label: "Entrepreneurship" },
-    { value: "marketing", label: "Digital Marketing" },
-    { value: "self-improvement", label: "Self-Improvement" },
-    { value: "finance", label: "Finance & Investing" },
-    { value: "lifestyle", label: "Lifestyle & Wellness" },
-  ];
-
-  const predefinedCategories = blogCategories.map((c) => c.value);
-
-  const otherCategories = useMemo(() => {
-    const unknowns = blogs
-      .map((b) => b.category)
-      .filter((cat) => cat && !predefinedCategories.includes(cat));
-    return [...new Set(unknowns)];
-  }, [blogs]);
+  const fetchCategories = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, "categories"));
+      const firestoreCategories = querySnapshot.docs.map((doc) => {
+        const data = doc.data();
+        const value = data.value || data.label || doc.id;
+        const label = data.label || data.value || doc.id;
+        return { value, label };
+      });
+      return firestoreCategories;
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+      return [];
+    }
+  };
 
   useEffect(() => {
-    const fetchBlogs = async () => {
+    const fetchData = async () => {
+      setLoading(true);
       try {
-        const querySnapshot = await getDocs(collection(db, "blogs"));
-        const blogList = querySnapshot.docs.map((doc) => ({
+        // Fetch blogs
+        const blogSnapshot = await getDocs(collection(db, "blogs"));
+        const blogList = blogSnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
@@ -66,34 +57,49 @@ export default function BlogList() {
             (b?.createdAt?.toMillis?.() || 0) -
             (a?.createdAt?.toMillis?.() || 0)
         );
-
         setBlogs(blogList);
+
+        // Fetch categories
+        const fetchedCategories = await fetchCategories();
+        setCategories(fetchedCategories);
       } catch (error) {
-        console.error("Error fetching blogs:", error);
+        console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchBlogs();
+    fetchData();
   }, []);
 
+  const predefinedCategories = useMemo(
+    () => categories.map((c) => c.value),
+    [categories]
+  );
+
+  const otherCategories = useMemo(() => {
+    const unknowns = blogs
+      .map((b) => b.category)
+      .filter((cat) => cat && !predefinedCategories.includes(cat));
+    return [...new Set(unknowns)];
+  }, [blogs, predefinedCategories]);
+
   const filteredBlogs = useMemo(() => {
-    return blogs.filter((blo) => {
+    return blogs.filter((blog) => {
       const matchesCategory =
         !category ||
         (category === "__other__"
-          ? !predefinedCategories.includes(blo?.category)
-          : blo?.category?.includes(category));
+          ? !predefinedCategories.includes(blog?.category)
+          : blog?.category?.includes(category));
 
       const matchesSearch =
         !search ||
-        blo.title.toLowerCase().includes(search.toLowerCase()) ||
-        blo?.category?.toLowerCase().includes(search.toLowerCase());
+        blog.title.toLowerCase().includes(search.toLowerCase()) ||
+        blog?.category?.toLowerCase().includes(search.toLowerCase());
 
       return matchesCategory && matchesSearch;
     });
-  }, [blogs, category, search]);
+  }, [blogs, category, search, predefinedCategories]);
 
   return (
     <div className="min-h-screen p-6 bg-[#121212]">
@@ -105,12 +111,13 @@ export default function BlogList() {
         <div>
           <select
             onChange={(e) => setCategory(e.target.value)}
+            value={category}
             name="category"
             id="category"
-            className="text-black border p-2 pr-8"
+            className="text-black border p-2 pr-8 rounded"
           >
             <option value="">All Categories</option>
-            {blogCategories.map((cate, index) => (
+            {categories.map((cate, index) => (
               <option key={index} value={cate.value}>
                 {cate.label}
               </option>
@@ -148,7 +155,7 @@ export default function BlogList() {
                   <div className="bg-gray-900 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition">
                     <div className="overflow-hidden w-full h-40 object-cover rounded-md">
                       <Image
-                        src={blog.image}
+                        src={blog.image || "/placeholder.jpg"}
                         alt={blog.title}
                         width={400}
                         height={160}
@@ -175,9 +182,9 @@ export default function BlogList() {
                             e.preventDefault();
                             e.stopPropagation();
                             const blogUrl = `${window.location.origin}/blog/${blog.id}`;
-                            navigator.clipboard
-                              .writeText(blogUrl)
-                              .then(() => {});
+                            navigator.clipboard.writeText(blogUrl).then(() => {
+                              alert("Blog URL copied to clipboard!");
+                            });
                           }}
                         />
                       </div>
