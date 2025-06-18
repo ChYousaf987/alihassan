@@ -20,7 +20,7 @@ const AboutSection = () => {
   return (
     <section
       id="about"
-      className="text-white scroll-mt-[80px] relative bg-[#0D1224] pt-4 font-montserrat min-h-[60vh] px-4 md:px-8"
+      className="text-white scroll-mt-[80px] mb-9 relative bg-[#0D1224] pt-4 font-montserrat min-h-[60vh] px-4 md:px-8"
     >
       {/* Background */}
       <div

@@ -110,7 +110,7 @@ const Skills = () => {
   return (
     <div
       id="skills"
-      className="py-10 text-center text-white flex flex-col items-center px-4 sm:px-6 md:px-8"
+      className="py-10 text- mt-7 text-white flex flex-col items-center px-4 sm:px-6 md:px-8"
     >
       <SectionHead>Skill</SectionHead>
 
